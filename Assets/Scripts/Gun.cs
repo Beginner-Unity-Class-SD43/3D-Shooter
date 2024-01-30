@@ -12,6 +12,9 @@ public class Gun : MonoBehaviour
 
     float nextTimeToFire;
 
+    [SerializeField] ParticleSystem muzzleFlash; // Muzzle flash particle system
+    [SerializeField] GameObject impactEffect; // Impact effect
+
     // Update is called once per frame
     void Update()
     {
@@ -24,6 +27,8 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
+        muzzleFlash.Play(); // Play the muzzle flash particle
+
         RaycastHit hit; // Draw a line from the camera and detect what it hits
         if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, range))
         {
@@ -33,6 +38,10 @@ public class Gun : MonoBehaviour
                 enemy.TakeDamage(damage);
                 Debug.Log("Enemy hit");
             }
+
+            GameObject impactObject = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(impactObject, 1f);
+
         }
 
     }

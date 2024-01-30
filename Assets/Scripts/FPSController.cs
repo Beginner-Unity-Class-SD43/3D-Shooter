@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class FPSController : MonoBehaviour
@@ -25,9 +26,14 @@ public class FPSController : MonoBehaviour
     CharacterController characterController;
     bool canMove = true;
 
+    [SerializeField] Image healthBar; // Health bar image
+    [SerializeField] float maxHealth = 100f; // Max player health
+    float health; // Current player health
+
     // Start is called before the first frame update
     void Start()
     {
+        health = maxHealth; // Set current health to max health at the start of the game
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -89,4 +95,11 @@ public class FPSController : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0); // Rotates our character left and right
         }
     }
+
+    public void TakeDamage(float damage) // Take damage
+    {
+        health -= damage;
+        healthBar.fillAmount = health / maxHealth;
+    }
+
 }

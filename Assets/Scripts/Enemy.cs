@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] float health = 50f;
+    [SerializeField] float damage = 10f; 
 
     Transform player; // Player's transform
     NavMeshAgent agent; // Navmesh Agent
@@ -36,6 +37,14 @@ public class Enemy : MonoBehaviour
     void Die() // Die
     {
         Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<FPSController>().TakeDamage(damage);
+        }
     }
 
 }
