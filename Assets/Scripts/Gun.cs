@@ -15,10 +15,17 @@ public class Gun : MonoBehaviour
     [SerializeField] ParticleSystem muzzleFlash; // Muzzle flash particle system
     [SerializeField] GameObject impactEffect; // Impact effect
 
+    public bool canShoot;
+
+    private void Start()
+    {
+        canShoot = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && canShoot)
         {
             nextTimeToFire = Time.time + 1 / fireRate; // Fires at every 1/firerate intervals
             Shoot();

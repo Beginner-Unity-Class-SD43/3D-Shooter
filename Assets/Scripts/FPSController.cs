@@ -30,6 +30,10 @@ public class FPSController : MonoBehaviour
     [SerializeField] float maxHealth = 100f; // Max player health
     float health; // Current player health
 
+    [SerializeField] GameObject deathScreen; // Death Screen
+
+    Gun gun;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +41,8 @@ public class FPSController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        deathScreen.SetActive(false);
+        gun = GetComponentInChildren<Gun>();
     }
 
     // Update is called once per frame
@@ -100,6 +106,20 @@ public class FPSController : MonoBehaviour
     {
         health -= damage;
         healthBar.fillAmount = health / maxHealth;
+
+        if(health <= 0f)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        deathScreen.SetActive(true); // Turn on the death screen
+        Cursor.lockState = CursorLockMode.None; // Unlocks the cursor
+        Cursor.visible = true; // Lets us see the cursor again
+        canMove = false;
+        gun.canShoot = false;
     }
 
 }

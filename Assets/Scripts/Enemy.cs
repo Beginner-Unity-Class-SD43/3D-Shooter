@@ -11,11 +11,14 @@ public class Enemy : MonoBehaviour
     Transform player; // Player's transform
     NavMeshAgent agent; // Navmesh Agent
 
+    Score score; // Score
+
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<FPSController>().transform; // Find the player in the scene and assign transform to player variable
         agent = GetComponent<NavMeshAgent>(); // Get navmeshagent component
+        score = FindObjectOfType<Score>(); // Find the score in scene
     }
 
     // Update is called once per frame
@@ -36,6 +39,7 @@ public class Enemy : MonoBehaviour
 
     void Die() // Die
     {
+        score.AddScore(100);
         Destroy(gameObject);
     }
 
